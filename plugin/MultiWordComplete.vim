@@ -58,12 +58,14 @@ endif
 
 
 "- mappings --------------------------------------------------------------------
+"
+"
 
-inoremap <silent> <Plug>(MultiWordPostComplete) <C-r>=MultiWordComplete#RemoveBaseKeys()<CR>
-inoremap <silent> <expr> <Plug>(MultiWordComplete) MultiWordComplete#Expr()
 if ! hasmapto('<Plug>(MultiWordComplete)', 'i')
-    imap <C-x>w <Plug>(MultiWordComplete)
-    execute 'imap <C-x>w <Plug>(MultiWordComplete)' . (empty(g:MultiWordComplete_FindStartMark) ? '' : '<Plug>(MultiWordPostComplete)')
+    if ! exists('g:MultiWordComplete_Map')
+	let g:MultiWordComplete_Map = '<C-x>w'
+    endif
+    execute 'imap ' . g:MultiWordComplete_Map . ' <C-r>=MultiWordComplete#CompleteDirectly()<CR>'
 endif
 
 " vim: set ts=8 sts=4 sw=4 noexpandtab ff=unix fdm=syntax :

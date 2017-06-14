@@ -1,3 +1,9 @@
+
+As omnifunc and completefunc is used alread.
+So I modify this complete to function call
+Trigger key define setting is: let g:MultiWordComplete_Map = '<C-x>w'
+
+
 This is a mirror of http://www.vim.org/scripts/script.php?script_id=4805
 
 DESCRIPTION

@@ -174,4 +174,29 @@ function! MultiWordComplete#Expr()
     return "\<C-x>\<C-u>"
 endfunction
 
+function! MultiWordComplete#CompleteDirectly()
+    let s:repeatCnt = 0 " Important!
+    let [s:repeatCnt, l:addedText, s:fullText] = CompleteHelper#Repeat#TestForRepeat()
+
+    let startCol = MultiWordComplete#MultiWordComplete(1, "")
+    let endCol = col('.')
+    if startCol != -1
+	let line = getline(".")
+	let base = line[startCol:endCol]
+	let result = MultiWordComplete#MultiWordComplete(0, base)
+	if len(result) != 0
+	    " replace base with first match
+	    let newline = substitute(line, base, "", '')
+	    call setline(line("."), newline)
+	    call cursor(line("."), startCol+1)
+	    call complete(col('.'), result)
+	endif
+
+    endif
+    if ! empty(g:MultiWordComplete_FindStartMark)
+	call feedkeys(MultiWordComplete#RemoveBaseKeys())
+    endif
+    return ""
+endfunction
+
 " vim: set ts=8 sts=4 sw=4 noexpandtab ff=unix fdm=syntax :
